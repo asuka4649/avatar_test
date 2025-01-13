@@ -109,5 +109,14 @@ def get_all_challenges():
     challenges = Challenge.query.all()
     return jsonify([challenge.serialize() for challenge in challenges])
 
+@app.route('/api/locations', methods=['GET'])
+def get_locations():
+    sample_locations = [
+        {"name": "Golden Gate Bridge", "latitude": 37.8199, "longitude": -122.4783},
+        {"name": "Statue of Liberty", "latitude": 40.6892, "longitude": -74.0445},
+        {"name": "Central Park", "latitude": 40.7851, "longitude": -73.9683},
+    ]
+    return jsonify(sample_locations)
+
 if __name__ == "__main__":
     app.run(debug=True)
