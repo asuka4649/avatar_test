@@ -1,17 +1,9 @@
-import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from 'react-native';
 
-export default function HomeScreen({ navigation }) {
+export default function App() {
   return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text className="text-2xl font-bold mb-4">Welcome to XFitLive.App</Text>
-
-      <TouchableOpacity
-        className="bg-blue-500 px-4 py-2 rounded"
-        onPress={() => navigation.navigate("Login")}
-      >
-        <Text className="text-white font-semibold">Go to Login</Text>
-      </TouchableOpacity>
+    <View className="p-20 bg-base-200 ">
+      <Text className="text-4xl font-bold  text-orange-200" >Hello Expo + Tailwind!</Text>
     </View>
   );
 }
