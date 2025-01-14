@@ -1,10 +1,6 @@
 const { getDefaultConfig } = require("expo/metro-config");
+const { withNativeWind } = require("nativewind/metro");
 
-module.exports = (() => {
-  const config = getDefaultConfig(__dirname);
+const config = getDefaultConfig(__dirname);
 
-  // Add support for NativeWind
-  config.resolver.assetExts.push("cjs");
-
-  return config;
-})();
+module.exports = withNativeWind(config, { input: "./global.css" });

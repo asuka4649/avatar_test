@@ -1,4 +1,5 @@
 import React from "react";
+import '../global.css'
 import { View, Text, TouchableOpacity } from "react-native";
 
 export default function LoginScreen({ navigation }) {
