@@ -1,17 +1,48 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
+import Header from "../components/dashboard/Header";
+
+function ForYouPage() {
+  return (
+    <View>
+      <Text>For You Page</Text>
+
+      {/* Card Carousel */}
+      {/* Menu */}
+      {/* Continue */}
+      {/* Follow Your Friends */}
+
+    </View>
+  );
+}
+
+function ExplorePage() {
+  return (
+    <View>
+      <Text>Explore Page</Text>
+    </View>
+  );
+}
+
+function ChallengesPage() {
+  return (
+    <View>
+      <Text>Challenges Page</Text>
+    </View>
+  );
+}
 
 export default function HomeScreen({ navigation }) {
   return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text className="text-2xl font-bold mb-4">Welcome to XFitLive.app</Text>
+    <SafeAreaView>
+      <View className="justify-self-stretch items-center justify-center bg-white">
+        <Header></Header>
 
-      <TouchableOpacity
-        className="bg-blue-500 px-4 py-2 rounded"
-        onPress={() => navigation.navigate("Login")}
-      >
-        <Text className="text-white font-semibold">Go to Login</Text>
-      </TouchableOpacity>
-    </View>
+        {/* Navigator */}
+        {/* Search */}
+        {/* Page */}
+
+      </View>
+    </SafeAreaView>
   );
 }
