@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // Import screens
 import HomeScreen from "./screens/HomeScreen";
+import ExploreScreen from "./screens/ExploreScreen";
 import LoginScreen from "./screens/loginScreen";
 import SignupScreen from "./screens/SignUpScreen";
 import EditWorkout from "./screens/Workouts/EditWorkout";
@@ -20,7 +21,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home" screenOptions={{contentStyle: {backgroundColor: '#141E26'}}}>
-        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Explore" component={ExploreScreen} options={{headerShown: false}} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="EditWorkout" component={EditWorkout} />
