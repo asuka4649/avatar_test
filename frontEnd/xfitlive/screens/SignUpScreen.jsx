@@ -8,7 +8,7 @@ export default function SignupScreen({ navigation }) {
 
       <TouchableOpacity
         className="bg-green-500 px-4 py-2 rounded"
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigation.navigate("EditWorkout")}
       >
         <Text className="text-white font-semibold">Go to Home</Text>
       </TouchableOpacity>
