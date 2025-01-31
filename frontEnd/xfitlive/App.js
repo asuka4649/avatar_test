@@ -9,6 +9,11 @@ import LoginScreen from "./screens/loginScreen";
 import SignupScreen from "./screens/SignUpScreen";
 import EditWorkout from "./screens/Workouts/EditWorkout";
 import PostWorkoutSelf from "./screens/Workouts/PostWorkoutSelf";
+import WorkoutLibrary from "./screens/Workouts/WorkoutLibrary";
+import PostWorkoutSelfBegin from "./screens/Workouts/PostWorkoutSelfBegin";
+import WorkoutLibraryPadding from "./screens/Workouts/WorkoutLibraryPadding";
+import PostWorkoutSelfStart from "./screens/Workouts/PostWorkoutSelfStart";
+import WorkoutPageExcercise from "./screens/Workouts/WorkoutPageExcercise";
 
 import CameraPermission from "./components/permissions/CameraPermission";
 import LocationPermission from "./components/permissions/LocationPermission";
@@ -25,6 +30,11 @@ export default function App() {
         <Stack.Screen name="Explore" component={ExploreScreen} options={{headerShown: false}} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
+        <Stack.Screen name="WorkoutLibraryPadding" component={WorkoutLibraryPadding} />
+        <Stack.Screen name="PostWorkoutSelfBegin" component={PostWorkoutSelfBegin} />
+        <Stack.Screen name="PostWorkoutSelfStart" component={PostWorkoutSelfStart} />
+        <Stack.Screen name="WorkoutPageExcercise" component={WorkoutPageExcercise} />
+        <Stack.Screen name="WorkoutLibrary" component={WorkoutLibrary} />
         <Stack.Screen name="EditWorkout" component={EditWorkout} />
         <Stack.Screen name="PostWorkoutSelf" component={PostWorkoutSelf} />
       </Stack.Navigator>

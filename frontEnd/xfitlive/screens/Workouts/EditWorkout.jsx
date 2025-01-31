@@ -50,7 +50,7 @@ export default function EditWorkout({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={{ uri: "" }} style={styles.headerImage}>
+      <ImageBackground style={styles.headerImage}>
         <View style={styles.overlay}>
           <Text style={styles.title}>POWER PUSH</Text>
           <View style={styles.infoRow}>
