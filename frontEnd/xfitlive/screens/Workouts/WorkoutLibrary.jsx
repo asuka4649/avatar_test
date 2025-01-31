@@ -34,6 +34,7 @@ export default function WorkoutLibrary({ navigation }) {
             />
           </Text>
         </View>
+        
         <View style={styles.greetingContainer}>
           <View>
             <Text style={styles.greetingText}>Good Morning,</Text>

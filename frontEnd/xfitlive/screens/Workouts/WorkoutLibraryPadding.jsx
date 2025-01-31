@@ -11,17 +11,18 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function WorkoutLibraryPadding () {
+export default function WorkoutLibraryPadding({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.notificationContainer}>
-          <Text style={styles.notificationText}>CHALLENGES</Text>
-          <Text style={styles.newBadge}>New</Text>
+        <View style={styles.challengeContainer}>
+          <Text style={styles.challengeText}>1 Pending Challenge(s)</Text>
         </View>
         <View style={styles.greetingContainer}>
-          <Text style={styles.greetingText}>Good Morning,</Text>
-          <Text style={styles.userName}>Jessica</Text>
+          <View>
+            <Text style={styles.greetingText}>Good Morning,</Text>
+            <Text style={styles.userName}>Jessica</Text>
+          </View>
           <Image
             source={require("../../assets/img/profile.png")}
             style={styles.profileImage}
@@ -60,7 +61,7 @@ export default function WorkoutLibraryPadding () {
               <Text style={styles.challengeInfo}>⏱ 10 min beginner</Text>
               <Text style={styles.challengeInfo}>⏳ Deadline Dec 20th</Text>
               <View style={styles.buttonsRow}>
-                <TouchableOpacity style={styles.beginButton}>
+                <TouchableOpacity style={styles.beginButton} onPress={() => navigation.navigate("WorkoutLibrary")}>
                   <Text style={styles.beginButtonText}>Begin</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.saveButton}>
@@ -74,50 +75,44 @@ export default function WorkoutLibraryPadding () {
       </ScrollView>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#121212",
-    padding: 20,
+    backgroundColor: "#141E26",
+    // padding: 20,
   },
   header: {
-    marginTop: 20,
+    backgroundColor: "#111",
   },
-  notificationContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  challengeContainer: {
     alignItems: "center",
-    backgroundColor: "#1d1d1d",
+    backgroundColor: "#2980ff",
     padding: 10,
-    borderRadius: 8,
   },
-  notificationText: {
-    color: "#fff",
-    fontSize: 12,
-  },
-  newBadge: {
-    backgroundColor: "red",
-    color: "white",
-    padding: 3,
-    borderRadius: 10,
-    fontSize: 12,
+  challengeText: {
+    fontSize: 15,
+    color: "#ffffff"
   },
   greetingContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 10,
+    padding: 15,
+    marginTop: 20,
+    marginBottom: 20
   },
   greetingText: {
-    color: "#aaa",
+    color: "white",
+    fontWeight: "bold",
     fontSize: 14,
   },
   userName: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
-    marginLeft: 5,
+    paddingLeft: 5,
+    paddingTop: 5,
   },
   profileImage: {
     width: 40,
@@ -136,16 +131,17 @@ const styles = StyleSheet.create({
     fontWeight: "normal",
   },
   selectedTabText: {
-    color: "#A6C9FF",
+    color: "#FFFFFF",
     fontWeight: "bold",
+    textDecorationLine: "underline",
   },
   searchContainer: {
     flexDirection: "row",
-    backgroundColor: "#1d1d1d",
+    backgroundColor: "#FFFFFF",
     padding: 10,
     borderRadius: 10,
     alignItems: "center",
-    marginTop: 10,
+    margin: 15,
   },
   searchInput: {
     flex: 1,
@@ -158,45 +154,50 @@ const styles = StyleSheet.create({
     backgroundColor: "#1d1d1d",
     borderRadius: 10,
     overflow: "hidden",
-    marginTop: 20,
+    padding: 15,
   },
   challengeImage: {
     width: "100%",
-    height: 470,
+    height: 430,
     justifyContent: "flex-end",
+  },
+  vector: {
+    alignItems: "center",
+  },
+  vectorChallenge: {
+    // width: 15
   },
   participants: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    padding: 5,
-    borderTopLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    alignSelf: "flex-end",
-    margin: 10,
-    // top: 10
+    backgroundColor: "rgba(255, 255, 255, 0.29)",
+    padding: 7,
+    position: "absolute", 
+    top: 10, 
+    right: 10, 
+    borderRadius:8
   },
   participantsText: {
-    color: "#A6C9FF",
+    color: "#fff",
     fontSize: 14,
     marginLeft: 5,
   },
   challengeDetails: {
     padding: 15,
-    backgroundColor: "#0E0E0E"
+    backgroundColor: "#0E0E0E",
   },
   challengeTitle: {
     color: "white",
     fontSize: 22,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 20
+    marginBottom: 20,
   },
   challengeInfo: {
     color: "#fff",
     fontSize: 14,
     margin: 5,
-    textAlign: "center"
+    textAlign: "center",
   },
   buttonsRow: {
     flexDirection: "row",
@@ -207,11 +208,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     alignItems: "center",
-    borderRadius: 10,
+    borderRadius: 50,
   },
   beginButtonText: {
     color: "white",
-    fontSize: 16
+    fontSize: 16,
   },
   saveButton: {
     flexDirection: "row",
@@ -220,7 +221,7 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
     justifyContent: "center",
-    borderRadius: 10,
+    borderRadius: 50,
     marginLeft: 10,
   },
   saveButtonText: {
@@ -229,5 +230,3 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
 });
-
-
