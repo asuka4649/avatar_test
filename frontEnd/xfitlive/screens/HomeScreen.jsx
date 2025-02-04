@@ -8,9 +8,9 @@ export default function HomeScreen({ navigation }) {
 
       <TouchableOpacity
         className="bg-blue-500 px-4 py-2 rounded"
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => navigation.navigate("WorkoutLibraryPadding")}
       >
-        <Text className="text-white font-semibold">Go to Login</Text>
+        <Text className="text-white font-semibold">Go to Explore</Text>
       </TouchableOpacity>
     </View>
   );
