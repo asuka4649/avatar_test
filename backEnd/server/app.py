@@ -1,7 +1,32 @@
-from flask import Flask, request, jsonify
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from server.models import db, User, Goals, Profile, Notification, Schedule, Event, Challenge, Reviews, Exercise
+from models import db
+from routes.auth_routes import auth_bp
+from routes.user_routes import user_bp
+from routes.goal_routes import goal_bp
+from routes.challenge_routes import challenge_bp
+from routes.event_routes import event_bp
+from routes.api_routes import api_bp
+from routes.workout_routes import workout_bp
+from routes.notification_routes import notification_bp
+from routes.pose_analysis_routes import pose_bp
+from routes.gamification_routes import gamification_bp
+from routes.analytics_routes import analytics_bp
+from routes.subscription_routes import subscription_bp
+from routes.live_workout_routes import live_workout_bp
+from routes.community_routes import community_bp
+from routes.wearables_routes import wearables_bp
+from routes.data_privacy_routes import data_privacy_bp
+from routes.ai_model_routes import ai_model_bp
+from routes.adaptive_ai_feedback_routes import adaptive_ai_feedback_bp
+from routes.event_management_routes import event_management_bp
+from routes.ai_chat_coach_routes import ai_chat_coach_bp
+from routes.stripe_webhooks import webhook_bp
+
+
+
+
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
@@ -10,113 +35,36 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 migrate = Migrate(app, db)
 
-# 1. Home Route
+# Register Blueprints (Routes)
+app.register_blueprint(auth_bp, url_prefix='/auth')
+app.register_blueprint(user_bp, url_prefix='/users')
+app.register_blueprint(goal_bp, url_prefix='/goals')
+app.register_blueprint(challenge_bp, url_prefix='/challenges')
+app.register_blueprint(event_bp, url_prefix='/events')
+app.register_blueprint(api_bp, url_prefix='/api')
+app.register_blueprint(workout_bp, url_prefix='/workouts')
+app.register_blueprint(notification_bp, url_prefix='/notifications')
+app.register_blueprint(pose_bp, url_prefix='/pose')
+app.register_blueprint(gamification_bp, url_prefix='/gamification')
+app.register_blueprint(analytics_bp, url_prefix='/analytics')
+app.register_blueprint(subscription_bp, url_prefix='/billing')
+app.register_blueprint(live_workout_bp, url_prefix='/live')
+app.register_blueprint(community_bp, url_prefix='/community')
+app.register_blueprint(wearables_bp, url_prefix='/wearables')
+app.register_blueprint(data_privacy_bp, url_prefix='/privacy')
+app.register_blueprint(ai_model_bp, url_prefix='/models')
+app.register_blueprint(event_management_bp, url_prefix='/event_managements')
+app.register_blueprint(ai_chat_coach_bp, url_prefix='/ai-chat')
+app.register_blueprint(adaptive_ai_feedback_bp, url_prefix='/feedback')
+app.register_blueprint(webhook_bp, url_prefix="/webhooks")
+
+
+
+
+
 @app.route("/")
 def home():
-    return jsonify({"message": "Welcome to the Flask API!"})
-
-# 2. CRUD for Users
-@app.route("/users", methods=["POST"])
-def create_user():
-    data = request.json
-    new_user = User(
-        name=data.get("name"),
-        email=data.get("email"),
-        password=data.get("password"),
-    )
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify({"message": f"User {new_user.name} created!", "user": new_user.serialize()}), 201
-
-@app.route("/users", methods=["GET"])
-def get_users():
-    users = User.query.all()
-    return jsonify([user.serialize() for user in users])
-
-@app.route("/users/<int:user_id>", methods=["GET"])
-def get_user(user_id):
-    user = User.query.get(user_id)
-    if not user:
-        return jsonify({"error": "User not found"}), 404
-    return jsonify(user.serialize())
-
-@app.route("/users/<int:user_id>", methods=["PUT"])
-def update_user(user_id):
-    user = User.query.get(user_id)
-    if not user:
-        return jsonify({"error": "User not found"}), 404
-
-    data = request.json
-    user.name = data.get("name", user.name)
-    user.email = data.get("email", user.email)
-    user.password = data.get("password", user.password)
-    db.session.commit()
-    return jsonify({"message": "User updated", "user": user.serialize()})
-
-@app.route("/users/<int:user_id>", methods=["DELETE"])
-def delete_user(user_id):
-    user = User.query.get(user_id)
-    if not user:
-        return jsonify({"error": "User not found"}), 404
-    db.session.delete(user)
-    db.session.commit()
-    return jsonify({"message": f"User {user.name} deleted!"})
-
-# 3. CRUD for Goals
-@app.route("/goals", methods=["POST"])
-def create_goal():
-    data = request.json
-    new_goal = Goals(
-        date=data.get("date"),
-        title=data.get("title"),
-        frequency=data.get("frequency"),
-        created_at=data.get("created_at"),
-        user_id_fk=data.get("user_id_fk")
-    )
-    db.session.add(new_goal)
-    db.session.commit()
-    return jsonify({"message": "Goal created", "goal": new_goal.serialize()}), 201
-
-@app.route("/goals", methods=["GET"])
-def get_all_goals():
-    goals = Goals.query.all()
-    return jsonify([goal.serialize() for goal in goals])
-
-@app.route("/goals/<int:goal_id>", methods=["DELETE"])
-def delete_goal(goal_id):
-    goal = Goals.query.get(goal_id)
-    if not goal:
-        return jsonify({"error": "Goal not found"}), 404
-    db.session.delete(goal)
-    db.session.commit()
-    return jsonify({"message": "Goal deleted!"})
-
-# 4. CRUD for Challenges
-@app.route("/challenges", methods=["POST"])
-def create_challenge():
-    data = request.json
-    new_challenge = Challenge(
-        user_id_fk=data.get("user_id_fk"),
-        progress=data.get("progress"),
-        rewards=data.get("rewards")
-    )
-    db.session.add(new_challenge)
-    db.session.commit()
-    return jsonify({"message": "Challenge created", "challenge": new_challenge.serialize()}), 201
-
-@app.route("/challenges", methods=["GET"])
-def get_all_challenges():
-    challenges = Challenge.query.all()
-    return jsonify([challenge.serialize() for challenge in challenges])
-
-@app.route('/api/locations', methods=['GET'])
-def get_locations():
-    sample_locations = [
-        {"name": "Golden Gate Bridge", "latitude": 37.8199, "longitude": -122.4783},
-        {"name": "Statue of Liberty", "latitude": 40.6892, "longitude": -74.0445},
-        {"name": "Central Park", "latitude": 40.7851, "longitude": -73.9683},
-    ]
-    return jsonify(sample_locations)
+    return {"message": "Welcome to the Xakary.app Backend!"}
 
 if __name__ == "__main__":
     app.run(debug=True)
