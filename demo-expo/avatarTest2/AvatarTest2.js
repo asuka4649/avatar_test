@@ -1,45 +1,47 @@
-import { Asset } from 'expo-asset';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { Renderer } from 'expo-three';
+import React, { useRef, useEffect } from 'react';
+import { View, Dimensions } from 'react-native';
 import { GLView } from 'expo-gl';
+import { Renderer } from 'expo-three';
 import * as THREE from 'three';
-import React from 'react';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+
+const { width, height } = Dimensions.get('window');
+
+// 👉 Replace this with your actual raw .glb link:
+const AVATAR_URL = 'https://raw.githubusercontent.com/asuka4649/avatar_test/main/avatarTest2/BicepTest1.glb';
 
 export default function AvatarTest2() {
-  console.log('✅ AvatarTest2 component is mounted'); // Log 1
+  const timeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   const onContextCreate = async (gl) => {
-    console.log('🎬 GLView context created'); // Log 2
-
-    const { drawingBufferWidth: width, drawingBufferHeight: height } = gl;
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(75, gl.drawingBufferWidth / gl.drawingBufferHeight, 0.1, 1000);
+    camera.position.z = 2;
+
     const renderer = new Renderer({ gl });
-    renderer.setSize(width, height);
+    renderer.setSize(gl.drawingBufferWidth, gl.drawingBufferHeight);
+    renderer.setClearColor(0xffffff, 1);
 
-    const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(0, 10, 10);
-    scene.add(light);
-
-    camera.position.z = 5;
-
-    const modelAsset = Asset.fromModule(require('./BicepTest1.glb'));
-    await modelAsset.downloadAsync();
-
-    console.log('📦 Model URI:', modelAsset.uri); // Log 3
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+    scene.add(ambientLight);
 
     const loader = new GLTFLoader();
     loader.load(
-      modelAsset.uri,
+      AVATAR_URL,
       (gltf) => {
         const model = gltf.scene;
-        model.scale.set(1, 1, 1);
-        model.position.set(0, -1, 0);
+        model.scale.set(0.5, 0.5, 0.5);
+        model.position.set(1, -1, 0); // Move to bottom right corner
         scene.add(model);
-        console.log('✅ Model loaded and added to scene'); // Log 4
 
         const animate = () => {
-          requestAnimationFrame(animate);
+          timeoutRef.current = requestAnimationFrame(animate);
           model.rotation.y += 0.01;
           renderer.render(scene, camera);
           gl.endFrameEXP();
@@ -48,10 +50,17 @@ export default function AvatarTest2() {
       },
       undefined,
       (error) => {
-        console.error('❌ Failed to load model:', error); // Log 5
+        console.error('Failed to load GLB model:', error);
       }
     );
   };
 
-  return <GLView style={{ flex: 1 }} onContextCreate={onContextCreate} />;
+  return (
+    <View style={{ flex: 1 }}>
+      <GLView
+        style={{ width, height }}
+        onContextCreate={onContextCreate}
+      />
+    </View>
+  );
 }
